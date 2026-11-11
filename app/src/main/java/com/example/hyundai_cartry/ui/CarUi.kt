@@ -1,6 +1,9 @@
 package com.example.hyundai_cartry.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -168,7 +171,14 @@ private fun TopBar(category: String, onBack: (() -> Unit)?) {
                     .clickable(onClick = onBack),
                 contentAlignment = Alignment.Center
             ) {
-                Text("‹", color = CarColors.TextPrimary, fontSize = 34.sp, fontWeight = FontWeight.Light)
+                // 글자(‹)는 폰트 줄 높이 때문에 아래로 치우쳐 보여서, 선 두 개로 직접 그림 → 정확히 가운데
+                Canvas(Modifier.size(20.dp)) {
+                    val stroke = 2.6.dp.toPx()
+                    val left = size.width * 0.32f
+                    val right = size.width * 0.66f
+                    drawLine(CarColors.TextPrimary, Offset(right, size.height * 0.15f), Offset(left, size.height * 0.5f), stroke, StrokeCap.Round)
+                    drawLine(CarColors.TextPrimary, Offset(left, size.height * 0.5f), Offset(right, size.height * 0.85f), stroke, StrokeCap.Round)
+                }
             }
             Spacer(Modifier.width(16.dp))
         }
